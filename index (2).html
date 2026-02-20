@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>GMStory | Loja Gamer</title>
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background: radial-gradient(circle at top,#0d1b2a,#000814);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  min-height:100vh;
+  color:white;
+  padding-top:40px;
+}
+
+.container{
+  background:#0f2027;
+  padding:20px;
+  border-radius:15px;
+  width:400px;
+  max-width:95%;
+  text-align:center;
+  display:none;
+  box-shadow:0 0 25px #0070ff;
+  border:1px solid #0070ff;
+}
+
+h2{
+  color:#00aaff;
+  margin-bottom:15px;
+  text-shadow:0 0 10px #0070ff;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:none;
+  border-radius:8px;
+  background:#1b263b;
+  color:white;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  background:#0070ff;
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.4s;
+}
+
+button:hover{
+  background:#00aaff;
+  box-shadow:0 0 15px #00ffff,0 0 25px #00aaff;
+}
+
+a{
+  display:block;
+  margin-top:10px;
+  color:#00aaff;
+  cursor:pointer;
+}
+
+.card{
+  background:#1b263b;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+  border:1px solid #0070ff;
+  cursor:pointer;
+  transition:0.3s all;
+}
+
+.card:hover{
+  transform: translateY(-5px) scale(1.05);
+  box-shadow:0 0 20px #00ffff, 0 0 30px #00aaff;
+  background: linear-gradient(135deg,#0070ff,#00ffff);
+  color:black;
+}
+
+.tabs{
+  display:flex;
+  justify-content:space-around;
+  margin-bottom:10px;
+}
+
+.tab{
+  padding:8px 12px;
+  background:#0070ff;
+  border-radius:8px;
+  cursor:pointer;
+  color:white;
+  transition:0.3s;
+}
+
+.tab.active{
+  background:#00aaff;
+}
+
+#pedido{
+  display:none;
+  text-align:left;
+  margin-top:15px;
+}
+
+#pedido input{
+  width:100%;
+  margin-bottom:10px;
+}
+
+#modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.75);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+#modalContent{
+  background:#1b263b;
+  padding:20px;
+  border-radius:12px;
+  border:2px solid #00ffff;
+  text-align:center;
+  color:#00ffff;
+  animation:modalFade 0.5s;
+}
+
+@keyframes modalFade{
+  from {opacity:0; transform:scale(0.7);}
+  to {opacity:1; transform:scale(1);}
+}
+
+#suporte{
+  margin-top:15px;
+  padding:12px;
+  background:#ff5f57;
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#suporte:hover{
+  background:#ff8b74;
+  box-shadow:0 0 10px #ff8b74;
+}
+
+@media(max-width:450px){
+  .container{width:95%;}
+  .tabs{flex-direction:column;}
+  .tab{margin:5px 0;}
+}
+</style>
+</head>
+<body>
+
+<!-- MÚSICA DE FUNDO -->
+<audio autoplay loop>
+  <source src="FEET_DONT_FALL_ME_NOW.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
+
+<!-- LOGIN -->
+<div class="container" id="login">
+  <h2>🎮 GMStory</h2>
+  <input type="email" id="email" placeholder="Seu Email">
+  <input type="password" id="senha" placeholder="Sua Senha">
+  <button onclick="login()">Entrar</button>
+  <a onclick="mostrarCadastro()">Criar Conta</a>
+</div>
+
+<!-- CADASTRO -->
+<div class="container" id="cadastro">
+  <h2>🕹 Criar Conta</h2>
+  <input type="email" id="novoEmail" placeholder="Seu Email">
+  <input type="password" id="novaSenha" placeholder="Sua Senha">
+  <button onclick="cadastrar()">Cadastrar</button>
+  <a onclick="mostrarLogin()">Voltar</a>
+</div>
+
+<!-- PAINEL -->
+<div class="container" id="painel">
+  <h2>🛒 Loja GMStory</h2>
+  <div class="tabs">
+    <div class="tab active" onclick="mostrarTab('ps4')">PS4</div>
+    <div class="tab" onclick="mostrarTab('ps5')">PS5</div>
+    <div class="tab" onclick="mostrarTab('streaming')">Streaming</div>
+  </div>
+
+  <!-- PS4 -->
+  <div id="ps4" class="tabContent">
+    <div class="card" onclick="abrirPedido('God of War')">🎮 God of War</div>
+    <div class="card" onclick="abrirPedido('God of War Ragnarok')">🎮 God of War Ragnarok</div>
+    <div class="card" onclick="abrirPedido('Red Dead Redemption 1')">🎮 Red Dead Redemption 1</div>
+    <div class="card" onclick="abrirPedido('Red Dead Redemption 2')">🎮 Red Dead Redemption 2</div>
+    <div class="card" onclick="abrirPedido('The Last of Us 1')">🎮 The Last of Us 1</div>
+    <div class="card" onclick="abrirPedido('The Last of Us 2')">🎮 The Last of Us 2</div>
+  </div>
+
+  <!-- PS5 -->
+  <div id="ps5" class="tabContent" style="display:none">
+    <div class="card" onclick="abrirPedido('Demon\'s Souls')">🎮 Demon's Souls</div>
+    <div class="card" onclick="abrirPedido('Spider-Man 2')">🎮 Spider-Man 2</div>
+    <div class="card" onclick="abrirPedido('Horizon Forbidden West')">🎮 Horizon Forbidden West</div>
+    <div class="card" onclick="abrirPedido('Resident Evil Village')">🎮 Resident Evil Village</div>
+    <div class="card" onclick="abrirPedido('Elden Ring')">🎮 Elden Ring</div>
+    <div class="card" onclick="abrirPedido('Call of Duty Modern Warfare 2')">🎮 Call of Duty Modern Warfare 2</div>
+  </div>
+
+  <!-- Streaming -->
+  <div id="streaming" class="tabContent" style="display:none">
+    <div class="card" onclick="abrirPedido('Netflix')">📺 Netflix</div>
+    <div class="card" onclick="abrirPedido('Prime Video')">📺 Prime Video</div>
+    <div class="card" onclick="abrirPedido('HBO')">📺 HBO</div>
+    <div class="card" onclick="abrirPedido('Disney+')">📺 Disney+</div>
+  </div>
+
+  <!-- Formulario Pedido -->
+  <div id="pedido">
+    <h3>💳 Pedido: <span id="itemSelecionado"></span></h3>
+    <label>CPF:</label>
+    <input type="text" id="cpf" placeholder="Digite seu CPF">
+    <label>Telefone:</label>
+    <input type="text" id="telefone" placeholder="Digite seu telefone">
+    <label>Email:</label>
+    <input type="email" id="emailPedido" placeholder="Digite seu email">
+    <p>Pague via PIX: <strong>31999153724</strong></p>
+    <button onclick="finalizarPedido()">Finalizar Pedido</button>
+    <button onclick="fecharPedido()">Cancelar</button>
+  </div>
+
+  <button id="suporte" onclick="abrirWhatsApp()">Falar com Suporte</button>
+  <button onclick="logout()">Sair da Conta</button>
+</div>
+
+<!-- MODAL CONFIRMACAO -->
+<div id="modal">
+  <div id="modalContent">
+    <h3>✅ Pagamento Concluído!</h3>
+    <p>O produto <span id="modalItem"></span> será enviado por email.</p>
+    <button onclick="fecharModal()">OK</button>
+  </div>
+</div>
+
+<script>
+// Abas com fade
+function mostrarTab(tab){
+  document.querySelectorAll('.tabContent').forEach(c=>c.style.display='none');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(tab).style.display='block';
+  if(tab==='ps4') document.querySelectorAll('.tab')[0].classList.add('active');
+  if(tab==='ps5') document.querySelectorAll('.tab')[1].classList.add('active');
+  if(tab==='streaming') document.querySelectorAll('.tab')[2].classList.add('active');
+}
+
+// Telas
+function mostrarLogin(){ esconderTudo(); document.getElementById('login').style.display='block'; }
+function mostrarCadastro(){ esconderTudo(); document.getElementById('cadastro').style.display='block'; }
+function mostrarPainel(){ esconderTudo(); document.getElementById('painel').style.display='block'; }
+function esconderTudo(){
+  document.getElementById('login').style.display='none';
+  document.getElementById('cadastro').style.display='none';
+  document.getElementById('painel').style.display='none';
+}
+
+// Cadastro/Login
+function cadastrar(){
+  let email=document.getElementById('novoEmail').value;
+  let senha=document.getElementById('novaSenha').value;
+  localStorage.setItem('email',email);
+  localStorage.setItem('senha',senha);
+  alert('Conta criada 🎮');
+  mostrarLogin();
+}
+
+function login(){
+  let email=document.getElementById('email').value;
+  let senha=document.getElementById('senha').value;
+  if(email===localStorage.getItem('email') && senha===localStorage.getItem('senha')){
+    mostrarPainel();
+  } else {
+    alert('Dados incorretos!');
+  }
+}
+
+function logout(){ mostrarLogin(); }
+
+// Pedido
+function abrirPedido(item){
+  document.getElementById('itemSelecionado').innerText = item;
+  document.getElementById('pedido').style.display = 'block';
+}
+
+function fecharPedido(){
+  document.getElementById('pedido').style.display = 'none';
+}
+
+// Modal de confirmação
+function finalizarPedido(){
+  let cpf=document.getElementById('cpf').value;
+  let tel=document.getElementById('telefone').value;
+  let email=document.getElementById('emailPedido').value;
+  if(!cpf || !tel || !email){
+    alert('Preencha todos os campos!');
+    return;
+  }
+  fecharPedido();
+  document.getElementById('modalItem').innerText = document.getElementById('itemSelecionado').innerText;
+  document.getElementById('modal').style.display='flex';
+}
+
+function fecharModal(){
+  document.getElementById('modal').style.display='none';
+}
+
+// WhatsApp Suporte
+function abrirWhatsApp(){
+  window.open('https://wa.me/5531999153724','_blank');
+}
+
+mostrarLogin();
+</script>
+</body>
+<body>
+<audio autoplay loop>
+  <source src="FEET_DONT_FALL_ME_NOW.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
